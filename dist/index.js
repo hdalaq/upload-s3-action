@@ -40,6 +40,29 @@ const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
   nodir: true
 });
+const metadata = new Map(JSON.parse(METADATA)) //getMap(METADATA);
+
+// function getMap(jsonString){
+//   var map = JSON.parse(jsonString, (key, value) =>{
+//     var map = new Map();
+//     map.set(key, value);
+//     return map
+//   });
+
+//   return map;
+// }
+
+// function dataReviver(key, value)
+// { 
+//     if(key == 'lastname')
+//     {
+//         var newLastname = "test";
+//         return newLastname;
+//     }
+
+//   return value;  // < here is where un-modified key/value pass though
+
+// }
 
 function upload(params) {
   return new Promise(resolve => {
@@ -62,7 +85,7 @@ function run() {
         Bucket: BUCKET,
         ACL: 'public-read',
         Body: fileStream,
-        Metadata: METADATA,
+        Metadata: metadata,
         Key: bucketPath,
         ContentType: lookup(p.path) || 'text/plain'
       };
@@ -75,7 +98,7 @@ run()
   .then(locations => {
     core.info(`object key - ${destinationDir}`);
     core.info(`object locations - ${locations}`);
-    core.info(`metadata - ${METADATA}`);
+    core.info(`metadata - ${JSON.stringify(metadata)}`);
     core.setOutput('object_key', destinationDir);
     core.setOutput('object_locations', locations);
   })
