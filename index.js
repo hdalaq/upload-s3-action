@@ -33,7 +33,7 @@ const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
   nodir: true
 });
-const metadata = new Map(JSON.parse(METADATA)) //getMap(METADATA);
+const metadata = new Map(METADATA); //getMap(METADATA);
 
 // function getMap(jsonString){
 //   var map = JSON.parse(jsonString, (key, value) =>{
@@ -78,9 +78,7 @@ function run() {
         Bucket: BUCKET,
         ACL: 'public-read',
         Body: fileStream,
-        Metadata: {
-          'my-key': 'some-value',
-        },
+        Metadata: metadata,
         Key: bucketPath,
         ContentType: lookup(p.path) || 'text/plain'
       };
