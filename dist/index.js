@@ -85,10 +85,13 @@ function run() {
         Bucket: BUCKET,
         ACL: 'public-read',
         Body: fileStream,
-        Metadata: metadata,
+        Metadata: {
+          'my-key': 'some-value',
+        },
         Key: bucketPath,
         ContentType: lookup(p.path) || 'text/plain'
       };
+      core.info(`metadata!! - ${params.Metadata}`);
       return upload(params);
     })
   );
