@@ -33,29 +33,29 @@ const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
   nodir: true
 });
-const metadata = getMap(METADATA);
+const metadata = new Map(JSON.parse(METADATA)); //getMap(METADATA);
 
-function getMap(jsonString){
-  var map = JSON.parse(jsonString, (key, value) =>{
-    var map = new Map();
-    map.set(key, value);
-    return map
-  });
+// function getMap(jsonString){
+//   var map = JSON.parse(jsonString, (key, value) =>{
+//     var map = new Map();
+//     map.set(key, value);
+//     return map
+//   });
 
-  return map;
-}
+//   return map;
+// }
 
-function dataReviver(key, value)
-{ 
-    if(key == 'lastname')
-    {
-        var newLastname = "test";
-        return newLastname;
-    }
+// function dataReviver(key, value)
+// { 
+//     if(key == 'lastname')
+//     {
+//         var newLastname = "test";
+//         return newLastname;
+//     }
 
-  return value;  // < here is where un-modified key/value pass though
+//   return value;  // < here is where un-modified key/value pass though
 
-}
+// }
 
 function upload(params) {
   return new Promise(resolve => {
